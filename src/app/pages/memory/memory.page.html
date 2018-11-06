@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Memory {{ id }} title</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="dummy-picture">Photo {{ id }}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <p>Memory {{ id }} description...</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="dummy-map">Map with pin at location</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

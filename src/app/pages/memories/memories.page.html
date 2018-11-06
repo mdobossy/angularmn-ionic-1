@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Memories</ion-title>
+    <ion-buttons slot="end">
+        <ion-button (click)="addButtonClicked()"><ion-icon slot="icon-only" name="add"></ion-icon></ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card (click)="memoryClicked(1)">
+    <div class="dummy-picture">Photo 1</div>
+    <ion-card-content>
+      <ion-card-title>
+        Photo 1 Title
+      </ion-card-title>
+      <p>Photo 1 description<br>Could be multiple lines.</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card (click)="memoryClicked(2)">
+    <div class="dummy-picture">Photo 2</div>
+    <ion-card-content>
+      <ion-card-title>
+        Photo 2 Title
+      </ion-card-title>
+      <p>Photo 2 description<br>Could be multiple lines.</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card (click)="memoryClicked(3)">
+    <div class="dummy-picture">Photo 3</div>
+    <ion-card-content>
+      <ion-card-title>
+        Photo 3 Title
+      </ion-card-title>
+      <p>Photo 3 description<br>Could be multiple lines.</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
