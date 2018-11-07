@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ModalController, LoadingController } from '@ionic/angular';
 
-import { Plugins, CameraSource, CameraResultType } from '@capacitor/core';
+import { Plugins, CameraSource, CameraResultType, FilesystemDirectory } from '@capacitor/core';
 import { MemoriesService } from '../../services/memories/memories.service';
-const { Geolocation, Camera } = Plugins;
+const { Geolocation, Camera, Filesystem } = Plugins;
 
 @Component({
   selector: 'app-add-memory',
@@ -57,15 +57,34 @@ export class AddMemoryPage implements OnInit {
     });
   }
 
+  async saveMemory(form: NgForm) {
+    const date = new Date(),
+    time = date.getTime(),
+    fileName = `${time}.jpg`;
+
+    await Filesystem.readFile({
+      path: this.imagePath
+    }).then((result) => {
+      Filesystem.writeFile({
+        data: result.data,
+        path: fileName,
+        directory: FilesystemDirectory.Data
+      }).then((res) => {
+        Filesystem.getUri({
+          directory: FilesystemDirectory.Data,
+          path: fileName
+        }).then((uriVal) => {
+          const path = uriVal.uri.replace('file://', '_capacitor_');
+          this.memoriesService
+            .addMemory(form.value.title, form.value.description, this.location, path, FilesystemDirectory.Data, fileName);
+        });
+      });
+    });
+  }
+
   onSubmit(form: NgForm) {
-    this.memoriesService
-            .addMemory(
-              form.value.title,
-              form.value.description,
-              this.location,
-              this.image,
-              '',
-              '');
-    this.modalCtrl.dismiss();
+    this.saveMemory(form).then(() => {
+      this.modalCtrl.dismiss();
+    });
   }
 }

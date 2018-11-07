@@ -35,7 +35,6 @@ export class MemoriesPage implements OnInit {
   }
 
   getMemories() {
-    this.memories = this.memoriesService.getMemories();
-    console.log(this.memories.length);
+    this.memoriesService.getMemories().then(memories => this.memories = memories);
   }
 }

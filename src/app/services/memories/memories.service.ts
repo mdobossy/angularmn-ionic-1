@@ -2,6 +2,9 @@ import { Memory } from '../../models/memory';
 import { Injectable } from '@angular/core';
 import { Location } from '../../models/location';
 
+import { Plugins } from '@capacitor/core';
+const { Storage } = Plugins;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +12,7 @@ export class MemoriesService {
   private memories: Memory[] = [];
   constructor() { }
 
-  addMemory(
+  async addMemory(
     title: string,
     description: string,
     location: Location,
@@ -26,9 +29,16 @@ export class MemoriesService {
       fileName
     );
     this.memories.push(memory);
+    await Storage.set({ key: 'memories', value: JSON.stringify(this.memories) })
+      .then()
+      .catch(err => {
+        this.memories.splice(this.memories.indexOf(memory), 1);
+      });
   }
 
-  getMemories() {
+  async getMemories() {
+    const result = await Storage.get({ key: 'memories' });
+    this.memories = result.value !== null ? JSON.parse(result.value) : [];
     return this.memories.slice().reverse();
   }
 
