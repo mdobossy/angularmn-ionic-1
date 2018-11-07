@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ModalController, LoadingController } from '@ionic/angular';
 
-import { Plugins } from '@capacitor/core';
-const { Geolocation } = Plugins;
+import { Plugins, CameraSource, CameraResultType } from '@capacitor/core';
+const { Geolocation, Camera } = Plugins;
 
 @Component({
   selector: 'app-add-memory',
@@ -13,7 +13,8 @@ const { Geolocation } = Plugins;
 })
 export class AddMemoryPage implements OnInit {
   location: Location = null;
-  image: boolean = null;
+  image: string = null;
+  imagePath: string = null;
 
   constructor(
     private modalCtrl: ModalController,
@@ -39,9 +40,19 @@ export class AddMemoryPage implements OnInit {
     });
   }
 
-  onOpenCamera() {
-    // CODE TO OPEN AND TAKE A PICTURE USING DEVICE CAMERA
-    this.image = true;
+  async onOpenCamera() {
+    const image = await Camera.getPhoto({
+      quality: 80,
+      allowEditing: true,
+      resultType: CameraResultType.Uri,
+      correctOrientation: true,
+      source: CameraSource.Camera,
+    }).then(imageData => {
+      this.image = imageData.webPath;
+      this.imagePath = imageData.path;
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
   onSubmit(form: NgForm) {
