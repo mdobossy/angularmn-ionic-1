@@ -1,6 +1,10 @@
+import { Location } from '../../models/location';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ModalController, LoadingController } from '@ionic/angular';
+
+import { Plugins } from '@capacitor/core';
+const { Geolocation } = Plugins;
 
 @Component({
   selector: 'app-add-memory',
@@ -8,7 +12,7 @@ import { ModalController, LoadingController } from '@ionic/angular';
   styleUrls: ['./add-memory.page.scss'],
 })
 export class AddMemoryPage implements OnInit {
-  location: boolean = null;
+  location: Location = null;
   image: boolean = null;
 
   constructor(
@@ -23,10 +27,16 @@ export class AddMemoryPage implements OnInit {
     this.modalCtrl.dismiss();
   }
 
-
-  onLocate() {
-    // CODE TO GET LOCATION USING GPS ON DEVICE
-    this.location = true;
+  async onLocate() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Getting your location...',
+    });
+    loading.present().then(() => {
+      Geolocation.getCurrentPosition().then((coords) => {
+        this.location = new Location(coords.coords.latitude, coords.coords.longitude);
+        loading.dismiss();
+      });
+    });
   }
 
   onOpenCamera() {

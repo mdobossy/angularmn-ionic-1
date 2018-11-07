@@ -26,7 +26,7 @@
       </ion-row>
       <ion-row *ngIf="location !== null">
         <ion-col>
-          <div class="dummy-map">Map with pin at location</div>
+          <div class="dummy-map">Pin at ({{ location.lat|number:'1.0-4' }}, {{ location.lng|number:'1.0-4' }})</div>
         </ion-col>
       </ion-row>
       <ion-row>
