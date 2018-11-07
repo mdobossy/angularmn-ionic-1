@@ -25,6 +25,7 @@ export class MemoriesService {
       imageDir,
       fileName
     );
+    this.memories.push(memory);
   }
 
   getMemories() {

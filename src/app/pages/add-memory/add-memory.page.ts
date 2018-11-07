@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { ModalController, LoadingController } from '@ionic/angular';
 
 import { Plugins, CameraSource, CameraResultType } from '@capacitor/core';
+import { MemoriesService } from '../../services/memories/memories.service';
 const { Geolocation, Camera } = Plugins;
 
 @Component({
@@ -19,6 +20,7 @@ export class AddMemoryPage implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
+    private memoriesService: MemoriesService
   ) { }
 
   ngOnInit() {
@@ -56,6 +58,14 @@ export class AddMemoryPage implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    this.memoriesService
+            .addMemory(
+              form.value.title,
+              form.value.description,
+              this.location,
+              this.image,
+              '',
+              '');
     this.modalCtrl.dismiss();
   }
 }
