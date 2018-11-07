@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MemoriesService } from '../../services/memories/memories.service';
+import { Memory } from '../../models/memory';
 
 @Component({
   selector: 'app-memory',
@@ -9,10 +11,11 @@ import { ActivatedRoute } from '@angular/router';
 export class MemoryPage implements OnInit {
   id: number;
 
-  constructor(private route: ActivatedRoute) { }
-
+  constructor(private route: ActivatedRoute, private memoriesService: MemoriesService) { }
+  memory: Memory;
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
+    this.memory = this.memoriesService.getMemory(this.id);
   }
 
 }

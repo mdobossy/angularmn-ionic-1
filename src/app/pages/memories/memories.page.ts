@@ -2,6 +2,8 @@ import { AddMemoryPage } from './../add-memory/add-memory.page';
 import { ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Memory } from '../../models/memory';
+import { MemoriesService } from '../../services/memories/memories.service';
 
 @Component({
   selector: 'app-memories',
@@ -9,20 +11,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./memories.page.scss']
 })
 export class MemoriesPage implements OnInit {
-  constructor(private modalCtrl: ModalController, private router: Router) {}
+  memories: Memory[] = [];
 
-  ngOnInit() {}
+  constructor(private modalCtrl: ModalController, private router: Router, private memoriesService: MemoriesService) {}
+
+  ngOnInit() {
+    this.getMemories();
+  }
 
   async addButtonClicked() {
     console.log('addButtonClicked');
     const modal = await this.modalCtrl.create({
       component: AddMemoryPage
     });
-    modal.onDidDismiss().then(data => {});
+    modal.onDidDismiss().then(data => {
+      this.getMemories();
+    });
     return await modal.present();
   }
 
   memoryClicked(index: number) {
     this.router.navigateByUrl(`/memories/${index})`);
+  }
+
+  getMemories() {
+    this.memories = this.memoriesService.getMemories();
   }
 }

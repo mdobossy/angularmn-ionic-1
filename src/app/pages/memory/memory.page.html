@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Memory {{ id }} title</ion-title>
+    <ion-title>{{ memory.title }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,17 +11,17 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <div class="dummy-picture">Photo {{ id }}</div>
+        <img [src]="memory.imagePath">
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <p>Memory {{ id }} description...</p>
+        <p>{{ memory.description }}</p>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <div class="dummy-map">Map with pin at location</div>
+        <leaflet-map [lat]="memory.location.lat" [lng]="memory.location.lng"></leaflet-map>
       </ion-col>
     </ion-row>
   </ion-grid>
